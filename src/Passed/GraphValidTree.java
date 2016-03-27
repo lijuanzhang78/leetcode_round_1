@@ -1,66 +1,46 @@
 package Passed;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class GraphValidTree {
 	public boolean validTree(int n, int[][] edges) {
-        UnionFind uf = new UnionFind(n);
+        int[] visited = new int[n];
+        List<List<Integer>> adjList = new ArrayList<List<Integer>>();
         
-        for(int i=0; i<edges.length; i++) {
-            if(!uf.union(edges[i][0], edges[i][1])) {
-                return false;
-            }
+        for(int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<Integer>());
         }
         
-        return uf.findCount() == 1;
+        for(int[] edge : edges) {
+            adjList.get(edge[0]).add(edge[1]);
+            adjList.get(edge[1]).add(edge[0]);
+        }
+        
+        if(hasCycle(-1,0,visited,adjList)) return false;
+        
+        for(int v : visited) {
+            if(v==0) return false;
+        }
+        
+        return true;
     }
     
-   int checkInput(int n, int[][] edges) {
-        HashSet<Integer> set = new HashSet<Integer>();
-        
-        for(int i=0; i<edges.length; i++) {
-            set.add(edges[i][0]);
-            set.add(edges[i][1]);
-        }
-        
-        return set.size();
-    }
-    
-    public class UnionFind {
-        int[] ids;
-        int count;
-        
-        public UnionFind(int n) {
-            ids = new int[n];
-            for(int i = 0; i < n; i++) {
-                ids[i] = i;
-            }
-            
-            count = n;
-        }
-        
-        public boolean union(int id1, int id2) {
-            if(ids[id1] != ids[id2]) {
-                for(int i = 0; i < ids.length; i++) {
-                    if(ids[i] == ids[id1]) ids[i] = ids[id2];
+    private boolean hasCycle(int pred, int curr, int[] visited, List<List<Integer>> adjList) {
+        visited[curr] = 1;
+        for(Integer succ : adjList.get(curr)) {
+        	
+        	// important: exclude the case when succ = pred, as it is an undirected graph
+            if (succ != pred) {
+                if (visited[succ] == 1) {return true;}
+                else if(visited[succ] == 0) {
+                    if(hasCycle(curr, succ, visited, adjList)) {return true;}
                 }
-                count--;
-                return true;
-            } else {
-                return false;
             }
-        } 
-        
-        public int findCount() {
-            return count;
         }
+        visited[curr] = 2;
+        return false;
     }
-    
-    public static void main(String[] args) {
-    	GraphValidTree gvt = new GraphValidTree();
-    	int n = 5;
-    	int[][] edges = {{0,1},{0,4},{1,4},{2,3}};
-    	boolean result = gvt.validTree(n, edges);
-    	System.out.println(result);
-    }
+	
 }
