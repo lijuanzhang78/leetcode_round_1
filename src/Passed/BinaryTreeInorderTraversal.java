@@ -8,22 +8,20 @@ import util.TreeNode;
 
 public class BinaryTreeInorderTraversal {
 	public List<Integer> inorderTraversal(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        List<Integer> list = new ArrayList<Integer>();
-        TreeNode node = root;
-        
-        while(node != null || stack.size() > 0) {
-            while (node != null) {
-                stack.push(node);
-                node = node.left;
-            }
-            
-            if(stack.size() > 0) {
-                node = stack.pop();
-                list.add(node.val);
-                node = node.right;
-            }
-        }       
-        return list;
-    }
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		List<Integer> res = new ArrayList<Integer>();
+		if(root == null) return res;
+		        
+		while(root != null || !stack.isEmpty()) {
+			if(root != null) {
+				stack.push(root);
+				root = root.left;
+			} else {
+				root = stack.pop();
+				res.add(root.val);
+				root = root.right;
+			}
+		}		  
+		return res;
+	}
 }
