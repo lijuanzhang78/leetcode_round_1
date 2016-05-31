@@ -27,5 +27,5 @@ public class Subsets {
 	            helper(result,nums,list,i+1);
 	            list.remove(list.size()-1);
 	        }
-	    }
+	    }    
 }

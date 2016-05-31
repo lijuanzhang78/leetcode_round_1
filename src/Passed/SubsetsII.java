@@ -32,5 +32,11 @@ public class SubsetsII {
             list.remove(list.size()-1);
         }       
     }
+    
+    public static void main(String[] args) {
+    	int[] nums = {1,2,2,4};
+    	List<List<Integer>> res = new SubsetsII().subsetsWithDup(nums);
+    	return;    	
+    }
 
 }

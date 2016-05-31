@@ -29,4 +29,10 @@ public class Combindations {
 	            list.remove(list.size() - 1);
 	        }
 	    }
+	    
+	    public static void main(String[] args) {
+	    	int n = 4, k = 2;
+	    	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    	res = new Combindations().combine(n,k);	    	
+	    }
 }
